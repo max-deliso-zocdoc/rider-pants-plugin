@@ -8,15 +8,15 @@ statement
     ;
 
 functionCall
-    : IDENTIFIER '(' (argument (',' argument)*)? ')'
+    : IDENTIFIER LPAREN (argument (COMMA argument)*)? RPAREN
     ;
 
 assignment
-    : IDENTIFIER '=' expression
+    : IDENTIFIER ASSIGN expression
     ;
 
 argument
-    : IDENTIFIER '=' expression
+    : IDENTIFIER ASSIGN expression
     | expression
     ;
 
@@ -29,11 +29,11 @@ expression
     ;
 
 list
-    : '[' (expression (',' expression)*)? ']'
+    : LBRACKET (expression (COMMA expression)*)? RBRACKET
     ;
 
 dict
-    : '{' (dictEntry (',' dictEntry)*)? '}'
+    : LBRACE (dictEntry (COMMA dictEntry)*)? RBRACE
     ;
 
 dictEntry
@@ -53,10 +53,50 @@ STRING
     | '\'' (~['\\] | '\\' .)* '\''
     ;
 
+LPAREN
+    : '('
+    ;
+
+RPAREN
+    : ')'
+    ;
+
+LBRACKET
+    : '['
+    ;
+
+RBRACKET
+    : ']'
+    ;
+
+LBRACE
+    : '{'
+    ;
+
+RBRACE
+    : '}'
+    ;
+
+COMMA
+    : ','
+    ;
+
+COLON
+    : ':'
+    ;
+
+ASSIGN
+    : '='
+    ;
+
 NEWLINE
     : '\r'? '\n'
     ;
 
+COMMENT
+    : '#' ~[\r\n]* -> channel(HIDDEN)
+    ;
+
 WS
-    : [ \t]+ -> skip
+    : [ \t\r\n]+ -> channel(HIDDEN)
     ;
