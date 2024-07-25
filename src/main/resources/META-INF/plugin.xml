@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>com.zocdoc.platform.pants-plugin</id>
+
+    <name>Pants</name>
+
+    <vendor email="technology-platform@zocdoc.com" url="https://www.zocdoc.com">ZocDoc</vendor>
+
+    <description><![CDATA[
+    This plugin parses BUILD files. It uses an externally supplied ANTLR Grammar.
+  ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="Pants Build File"
+                fieldName="INSTANCE"
+                implementationClass="com.zocdoc.platform.pants.BuildFileType"
+        />
+        <lang.syntaxHighlighterFactory
+                language="Build"
+                implementationClass="com.zocdoc.platform.pants.BuildSyntaxHighlighterFactory"/>
+        <lang.syntaxHighlighter
+                language="Build"
+                implementationClass="com.zocdoc.platform.pants.BuildSyntaxHighlighter"/>
+    </extensions>
+</idea-plugin>
