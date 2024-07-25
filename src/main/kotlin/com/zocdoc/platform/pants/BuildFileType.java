@@ -1,6 +1,7 @@
 package com.zocdoc.platform.pants;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.util.NlsSafe;
 import org.jetbrains.annotations.NonNls;
@@ -32,6 +33,6 @@ public class BuildFileType extends LanguageFileType {
 
     @Override
     public Icon getIcon() {
-        return null;
+        return IconLoader.getIcon("/META-INF/pluginIcon.svg", getClass());
     }
 }

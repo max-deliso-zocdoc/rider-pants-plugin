@@ -1,6 +1,5 @@
 package com.zocdoc.platform.pants;
 
-
 import com.intellij.lexer.Lexer;
 import com.intellij.lexer.LexerPosition;
 import com.intellij.psi.tree.IElementType;
@@ -18,27 +17,24 @@ public class BuildLexerAdapter extends Lexer {
     }
 
     @Override
-    public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
+    public void start(@NotNull CharSequence buffer,
+                      int startOffset,
+                      int endOffset,
+                      int initialState) {
         antlrLexer.setInputStream(new ANTLRInputStream(buffer.toString()));
         antlrLexer.reset();
+        antlrLexer.setState(initialState);
     }
 
     @Override
     public int getState() {
-        return 0;
+        return antlrLexer.getState();
     }
 
     @Override
     public @Nullable IElementType getTokenType() {
-        Token token = antlrLexer.nextToken();
-
-
-        token.getType();
-
-        // TODO: map from antlr to enum
-        //PantsBuildTokenType.getTokenType(token.getType());
-
-        return null;
+        final Token token = antlrLexer.nextToken();
+        return BuildTokenType.getTokenType(token.getType());
     }
 
     @Override
@@ -48,7 +44,7 @@ public class BuildLexerAdapter extends Lexer {
 
     @Override
     public int getTokenEnd() {
-       return antlrLexer.getToken().getStopIndex();
+        return antlrLexer.getToken().getStopIndex();
     }
 
     @Override
@@ -58,23 +54,23 @@ public class BuildLexerAdapter extends Lexer {
 
     @Override
     public @NotNull LexerPosition getCurrentPosition() {
+        return new LexerPosition() {
+            @Override
+            public int getOffset() {
+                return antlrLexer.getToken().getStartIndex();
+            }
 
-      return new LexerPosition() {
-          @Override
-          public int getOffset() {
-              return 0;
-          }
-
-          @Override
-          public int getState() {
-              return 0;
-          }
-      };
+            @Override
+            public int getState() {
+                return antlrLexer.getState();
+            }
+        };
     }
 
     @Override
     public void restore(@NotNull LexerPosition position) {
-        // TODO
+        antlrLexer.getInputStream().seek(position.getOffset());
+        antlrLexer.mode(position.getState());
     }
 
     @Override

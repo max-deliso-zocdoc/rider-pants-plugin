@@ -1,5 +1,3 @@
-import com.jetbrains.plugin.structure.base.utils.contentBuilder.buildDirectory
-
 plugins {
   id("java")
   id("org.jetbrains.kotlin.jvm") version "1.9.24"
